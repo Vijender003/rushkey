@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiChevronDown, FiHome, FiSearch, FiUser, FiLogOut, FiGrid, FiHelpCircle, FiPhone, FiInfo, FiBookOpen, FiBriefcase } from 'react-icons/fi';
+import { FiMenu, FiX, FiChevronDown, FiHome, FiSearch, FiUser, FiLogOut, FiGrid, FiHelpCircle, FiBookOpen, FiInfo, FiPhone, FiBriefcase } from 'react-icons/fi';
 import useAuth from '@/hooks/useAuth';
 import Button from '@/components/ui/Button';
+import Logo from '@/components/ui/Logo';
 
 const navLinks = [
   { to: '/', label: 'Home', icon: FiHome },
-  { to: '/search', label: 'Explore', icon: FiSearch },
+  { to: '/search', label: 'Explore PGs', icon: FiSearch },
+  { to: '/about', label: 'About', icon: FiInfo },
+  { to: '/contact', label: 'Contact', icon: FiPhone },
 ];
 
 const moreLinks = [
   { to: '/help', label: 'Help Center', icon: FiHelpCircle },
   { to: '/faq', label: 'FAQ', icon: FiBookOpen },
   { to: '/safety-tips', label: 'Safety Tips', icon: FiInfo },
-  { to: '/contact', label: 'Contact Us', icon: FiPhone },
-  { to: '/about', label: 'About Us', icon: FiInfo },
   { to: '/blog', label: 'Blog', icon: FiBookOpen },
   { to: '/careers', label: 'Careers', icon: FiBriefcase },
 ];
@@ -51,10 +52,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${bgClass}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link to="/" className={`flex items-center gap-1.5 font-bold text-xl transition-colors ${textClass}`}>
-            <span className="text-rushkey-500">Rush</span>
-            <span>key</span>
-          </Link>
+          <Logo showText size={scrolled ? 'md' : 'md'} className={scrolled ? '' : '[&_span:last-child]:text-white'} />
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
@@ -111,12 +109,10 @@ export default function Navbar() {
                 <button
                   onClick={() => setDropdownOpen((prev) => !prev)}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-colors ${
-                    scrolled
-                      ? 'text-gray-700 hover:bg-gray-100'
-                      : 'text-white/80 hover:bg-white/10'
+                    scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white/80 hover:bg-white/10'
                   }`}
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rushkey-500 to-rushkey-600 text-white flex items-center justify-center text-sm font-semibold shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-rushkey-500 text-white flex items-center justify-center text-sm font-semibold shadow-sm">
                     {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                   <span className="text-sm font-medium max-w-[120px] truncate">{user?.name || 'User'}</span>
@@ -131,7 +127,7 @@ export default function Navbar() {
                       className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5"
                     >
                       <Link to="/dashboard" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
-                        <FiUser className="w-4 h-4 text-gray-400" /> Dashboard
+                        <FiGrid className="w-4 h-4 text-gray-400" /> Dashboard
                       </Link>
                       <hr className="my-1 border-gray-100" />
                       <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
@@ -144,7 +140,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login"><Button variant={scrolled ? 'ghost' : 'white-glass'} size="sm">Login</Button></Link>
-                <Link to="/signup"><Button variant="primary" size="sm">Sign Up</Button></Link>
+                <Link to="/search"><Button variant="primary" size="sm" radius="xl">Find PG</Button></Link>
               </>
             )}
           </div>
@@ -170,9 +166,7 @@ export default function Navbar() {
               className="fixed top-0 right-0 bottom-0 w-80 bg-white shadow-2xl z-50 md:hidden flex flex-col"
             >
               <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                <Link to="/" className="flex items-center gap-1.5 font-bold text-lg" onClick={() => setMobileOpen(false)}>
-                  <span className="text-rushkey-500">Rush</span>key
-                </Link>
+                <Logo size="sm" />
                 <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100" aria-label="Close">
                   <FiX className="w-5 h-5" />
                 </button>
@@ -216,7 +210,7 @@ export default function Navbar() {
                 {isAuthenticated ? (
                   <div className="space-y-2">
                     <div className="flex items-center gap-3 px-3 py-2">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-rushkey-500 to-rushkey-600 text-white flex items-center justify-center text-sm font-semibold">
+                      <div className="w-10 h-10 rounded-full bg-rushkey-500 text-white flex items-center justify-center text-sm font-semibold">
                         {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                       <div>
@@ -236,8 +230,8 @@ export default function Navbar() {
                     <Link to="/login" onClick={() => setMobileOpen(false)}>
                       <Button variant="outline" fullWidth>Login</Button>
                     </Link>
-                    <Link to="/signup" onClick={() => setMobileOpen(false)}>
-                      <Button variant="primary" fullWidth>Sign Up</Button>
+                    <Link to="/search" onClick={() => setMobileOpen(false)}>
+                      <Button variant="primary" fullWidth>Find PG</Button>
                     </Link>
                   </div>
                 )}

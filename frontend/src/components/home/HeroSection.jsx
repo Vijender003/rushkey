@@ -4,15 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiMapPin, FiStar, FiArrowRight, FiShield, FiTrendingUp } from 'react-icons/fi';
 
 const floatingCards = [
-  { id: 1, price: '₹8,500/mo', title: 'Starlight Executive PG', rating: 4.8, color: 'from-rose-400 to-orange-300', x: '15%', y: '25%', delay: 0 },
-  { id: 2, price: '₹12,000/mo', title: 'Urban Nest Studio', rating: 4.9, color: 'from-blue-400 to-cyan-300', x: '75%', y: '20%', delay: 1.5 },
-  { id: 3, price: '₹6,500/mo', title: 'Campus Inn Hostel', rating: 4.7, color: 'from-purple-400 to-pink-300', x: '10%', y: '60%', delay: 3 },
+  { id: 1, price: '₹8,500/mo', title: 'Starlight Executive PG', rating: 4.8, color: 'from-rushkey-400 to-rushkey-600', x: '15%', y: '25%', delay: 0 },
+  { id: 2, price: '₹12,000/mo', title: 'Urban Nest Studio', rating: 4.9, color: 'from-surface-600 to-surface-800', x: '75%', y: '20%', delay: 1.5 },
+  { id: 3, price: '₹6,500/mo', title: 'Campus Inn Hostel', rating: 4.7, color: 'from-whatsapp-500 to-emerald-600', x: '10%', y: '60%', delay: 3 },
 ];
 
 const trustBadges = [
-  { icon: FiShield, text: '500+ Verified Listings' },
+  { icon: FiShield, text: '30+ Verified PGs' },
   { icon: FiStar, text: '4.8 Avg Rating' },
-  { icon: FiTrendingUp, text: '1000+ Happy Tenants' },
+  { icon: FiTrendingUp, text: '100+ Students Helped' },
 ];
 
 function Orb({ size, color1, color2, duration, x, y }) {
@@ -73,7 +73,7 @@ function HeroSearchBar() {
   return (
     <form onSubmit={handleSubmit} className="relative w-full max-w-2xl mx-auto">
       <motion.div
-        animate={{ scale: focused ? 1.02 : 1, boxShadow: focused ? '0 8px 50px rgba(255, 90, 31, 0.3)' : '0 4px 20px rgba(0, 0, 0, 0.15)' }}
+        animate={{ scale: focused ? 1.02 : 1, boxShadow: focused ? '0 8px 50px rgba(255, 90, 0, 0.3)' : '0 4px 20px rgba(0, 0, 0, 0.15)' }}
         transition={{ duration: 0.3 }}
         className="flex items-center gap-2 rounded-full bg-white/15 backdrop-blur-2xl border border-white/25 pl-5 pr-2 py-2"
       >
@@ -132,12 +132,12 @@ function HeroSearchBar() {
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-950">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950" />
-      <Orb size={600} color1="rgba(255, 90, 31, 0.25)" color2="transparent" duration={20} x={100} y={-200} />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-surface-900">
+      <div className="absolute inset-0 bg-gradient-to-b from-surface-900 via-surface-800 to-surface-900" />
+      <Orb size={600} color1="rgba(255, 90, 0, 0.25)" color2="transparent" duration={20} x={100} y={-200} />
       <Orb size={450} color1="rgba(147, 51, 234, 0.15)" color2="transparent" duration={25} x={700} y={100} />
       <Orb size={350} color1="rgba(59, 130, 246, 0.12)" color2="transparent" duration={18} x={-50} y={400} />
-      <Orb size={500} color1="rgba(255, 90, 31, 0.15)" color2="transparent" duration={22} x={500} y={500} />
+      <Orb size={500} color1="rgba(255, 90, 0, 0.15)" color2="transparent" duration={22} x={500} y={500} />
 
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
@@ -164,13 +164,13 @@ export default function HeroSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rushkey-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-rushkey-500" />
             </span>
-            <span className="text-white/80 text-xs font-medium tracking-wide uppercase">Instant Moving — No Brokerage</span>
+            <span className="text-white/80 text-xs font-medium tracking-wide uppercase">Verified Listings Near North Campus</span>
           </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight mb-4 max-w-4xl mx-auto">
-            Find Verified PGs in{' '}
-            <span className="bg-gradient-to-r from-rushkey-400 via-rushkey-500 to-orange-400 bg-clip-text text-transparent">Delhi</span>
-            {' '}Under ₹10,000
+            Find PGs Near{' '}
+            <span className="bg-gradient-to-r from-rushkey-400 via-rushkey-500 to-orange-400 bg-clip-text text-transparent">Delhi University</span>
+            {' '}in Minutes
           </h1>
 
           <motion.p
@@ -179,7 +179,7 @@ export default function HeroSection() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto mb-8 font-light leading-relaxed"
           >
-            No brokers. No deposits. Just verified rooms you can move into within 24 hours. Trusted by 1,000+ students and professionals.
+            Verified listings near North Campus. No brokers. No deposits. Just connect directly with PG owners.
           </motion.p>
 
           <motion.div
@@ -212,16 +212,16 @@ export default function HeroSection() {
           >
             <Link
               to="/search"
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium px-5 py-2.5 rounded-full hover:bg-white/20 transition-all text-sm group"
+              className="inline-flex items-center gap-2 bg-rushkey-500 hover:bg-rushkey-600 text-white font-bold px-8 py-3.5 rounded-full transition-all shadow-xl shadow-rushkey-500/30 hover:shadow-rushkey-500/50 text-sm group"
             >
-              Browse All Listings
+              View All PGs
               <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none z-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-surface-50 to-transparent pointer-events-none z-20" />
     </section>
   );
 }

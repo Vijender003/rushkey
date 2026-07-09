@@ -3,16 +3,14 @@ import { motion } from 'framer-motion';
 import Spinner from './Spinner';
 
 const variantClasses = {
-  primary:
-    'bg-rushkey-500 text-white hover:bg-rushkey-600 focus:ring-rushkey-300 shadow-lg shadow-rushkey-500/20 hover:shadow-rushkey-500/40',
-  secondary:
-    'border-2 border-rushkey-500 text-rushkey-500 hover:bg-rushkey-50 focus:ring-rushkey-300',
-  outline:
-    'border border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50 focus:ring-gray-200',
+  primary: 'bg-rushkey-500 text-white hover:bg-rushkey-600 focus:ring-rushkey-300 shadow-lg shadow-rushkey-500/20 hover:shadow-rushkey-500/40',
+  secondary: 'border-2 border-rushkey-500 text-rushkey-500 hover:bg-rushkey-50 focus:ring-rushkey-300',
+  outline: 'border border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50 focus:ring-gray-200',
   ghost: 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-200',
+  dark: 'bg-surface-900 text-white hover:bg-surface-800 focus:ring-surface-300 shadow-lg shadow-surface-900/20',
+  whatsapp: 'bg-whatsapp-500 text-white hover:bg-whatsapp-600 focus:ring-whatsapp-50 shadow-lg shadow-whatsapp-500/20',
   danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-300 shadow-lg shadow-red-500/20',
-  'white-glass':
-    'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 focus:ring-white/30',
+  'white-glass': 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 focus:ring-white/30',
 };
 
 const sizeClasses = {
@@ -70,7 +68,7 @@ const Button = forwardRef(function Button(
       {loading && (
         <Spinner
           size="sm"
-          color={['primary', 'danger', 'white-glass'].includes(variant) ? 'white' : 'rushkey-500'}
+          color={['primary', 'dark', 'whatsapp', 'danger', 'white-glass'].includes(variant) ? 'white' : 'rushkey-500'}
         />
       )}
       {children}

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { FiGithub, FiTwitter, FiInstagram, FiLinkedin, FiMail, FiMapPin } from 'react-icons/fi';
+import Logo from '@/components/ui/Logo';
 
 const footerLinks = {
   Platform: [
-    { to: '/search', label: 'Explore Listings' },
+    { to: '/search', label: 'Explore PGs' },
     { to: '/', label: 'How It Works' },
     { to: '/', label: 'For Owners' },
-    { to: '/', label: 'Pricing' },
   ],
   Support: [
     { to: '/help', label: 'Help Center' },
@@ -33,15 +33,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-950 text-gray-400">
+    <footer className="bg-surface-900 text-gray-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
           <div className="col-span-2 md:col-span-2">
-            <Link to="/" className="inline-flex items-center gap-1.5 font-bold text-xl text-white mb-4">
-              <span className="text-rushkey-500">Rush</span>key
-            </Link>
+            <Logo className="mb-4" showText size="md" />
             <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6">
-              India's fastest PG and hostel finding platform. Zero brokerage, verified listings, and instant move-in.
+              Delhi's fastest PG finding platform. Zero brokerage, verified listings near Delhi University, and instant owner contact.
             </p>
             <div className="flex items-center gap-2 mb-4">
               <FiMapPin className="w-4 h-4 text-rushkey-400 shrink-0" />
@@ -57,7 +55,7 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="p-2.5 rounded-xl bg-gray-800/50 text-gray-400 hover:bg-rushkey-500/10 hover:text-rushkey-400 transition-all border border-gray-800"
+                  className="p-2.5 rounded-xl bg-surface-800 text-gray-400 hover:bg-rushkey-500/10 hover:text-rushkey-400 transition-all border border-surface-700"
                 >
                   <s.icon className="w-4 h-4" />
                 </a>
@@ -82,7 +80,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-gray-800/60">
+      <div className="border-t border-surface-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-600">&copy; {currentYear} Rushkey. All rights reserved.</p>
           <div className="flex items-center gap-6 text-xs text-gray-600">

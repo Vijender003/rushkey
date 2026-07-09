@@ -32,7 +32,7 @@ export default function FeaturedProperties() {
   }, []);
 
   return (
-    <section className="bg-gray-50 px-4 py-24 sm:py-32 overflow-hidden">
+    <section className="bg-surface-50 px-4 py-24 sm:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -82,6 +82,13 @@ export default function FeaturedProperties() {
                             <FiStar className="w-3 h-3 fill-yellow-400 text-yellow-400" /> {property.rating}
                           </div>
                         </div>
+                        {property.availability === 'Few Rooms Left' && (
+                          <div className="absolute top-16 right-4">
+                            <span className="bg-red-500/90 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                              Only 2 rooms left
+                            </span>
+                          </div>
+                        )}
                         <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                           <h3 className="text-white font-bold text-lg leading-tight mb-1.5">{property.title}</h3>
                           <div className="flex items-center gap-1.5 text-white/70 text-sm mb-2">
@@ -89,7 +96,7 @@ export default function FeaturedProperties() {
                             <span className="truncate">{property.location}</span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-white font-bold text-xl">
+                            <span className="text-rushkey-400 font-bold text-xl">
                               {property.price}<span className="text-white/60 text-sm font-normal">{property.period}</span>
                             </span>
                             <span className="text-white/60 text-xs">{property.reviews} reviews</span>
