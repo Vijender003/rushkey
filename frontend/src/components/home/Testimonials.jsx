@@ -18,7 +18,7 @@ const testimonials = [
     role: 'Software Engineer, Google',
     avatar: 'RV',
     color: 'from-purple-500 to-pink-500',
-    text: 'After moving to Bangalore for my job, Rushkey helped me find a place in Whitefield within a day. The instant connect feature is incredible. Highly recommended.',
+    text: 'After moving to Delhi for my job, Rushkey helped me find a place in Whitefield within a day. The instant connect feature is incredible. Highly recommended.',
     rating: 5,
   },
   {

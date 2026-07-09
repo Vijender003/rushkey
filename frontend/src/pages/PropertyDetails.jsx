@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -15,6 +15,7 @@ import MapSection from '@/components/property/MapSection';
 import ReviewsSection from '@/components/property/ReviewsSection';
 import SimilarProperties from '@/components/property/SimilarProperties';
 import { FiArrowRight, FiChevronLeft, FiChevronRight, FiCalendar } from 'react-icons/fi';
+import StickyMobileCTA from '@/components/cta/StickyMobileCTA';
 
 function DetailSkeleton() {
   return (
@@ -90,25 +91,13 @@ export default function PropertyDetails() {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(1);
-  const [mobileCtaVisible, setMobileCtaVisible] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
-  const lastScrollY = useRef(0);
 
   useEffect(() => {
     dispatch(fetchPropertyById(id));
     dispatch(fetchPropertyReviews({ propertyId: id }));
     window.scrollTo({ top: 0 });
   }, [dispatch, id]);
-
-  useEffect(() => {
-    function handleScroll() {
-      const current = window.scrollY;
-      setMobileCtaVisible(current < lastScrollY.current || current < 200);
-      lastScrollY.current = current;
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   if (loading || !property) {
     return <DetailSkeleton />;
@@ -313,7 +302,6 @@ export default function PropertyDetails() {
               <div className="sticky top-24 space-y-6">
                 <OwnerCard
                   property={property}
-                  onContact={() => handleSchedule()}
                   onSchedule={handleSchedule}
                 />
               </div>
@@ -403,27 +391,7 @@ export default function PropertyDetails() {
         </div>
       )}
 
-      <motion.div
-        initial={{ y: 100 }}
-        animate={{ y: mobileCtaVisible ? 0 : 100 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-gray-200 px-4 py-3 lg:hidden shadow-2xl"
-      >
-        <div className="flex items-center justify-between max-w-lg mx-auto">
-          <div>
-            <span className="text-xl font-extrabold text-gray-900">₹{property.price?.toLocaleString('en-IN')}</span>
-            <span className="text-gray-500 text-sm">/month</span>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => { setShowBookingModal(true); }}
-              className="px-6 py-2.5 bg-rushkey-500 hover:bg-rushkey-600 text-white font-bold rounded-xl transition-colors shadow-lg shadow-rushkey-500/20 text-sm"
-            >
-              Book Now
-            </button>
-          </div>
-        </div>
-      </motion.div>
+      <StickyMobileCTA property={property} />
     </div>
   );
 }

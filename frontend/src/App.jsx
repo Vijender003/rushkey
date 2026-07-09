@@ -7,17 +7,15 @@ import PropertyDetails from '@/pages/PropertyDetails';
 import AuthPage from '@/pages/AuthPage';
 import Dashboard from '@/pages/Dashboard';
 import NotFound from '@/pages/NotFound';
-
-import { AdminProvider } from '@/pages/admin/AdminContext';
-import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import AdminLogin from '@/pages/admin/AdminLogin';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
-import AdminProperties from '@/pages/admin/AdminProperties';
-import AdminAddProperty from '@/pages/admin/AdminAddProperty';
-import AdminBookings from '@/pages/admin/AdminBookings';
-import AdminTenants from '@/pages/admin/AdminTenants';
-import AdminReviews from '@/pages/admin/AdminReviews';
+import AdminListings from '@/pages/admin/AdminListings';
+import AdminAddListing from '@/pages/admin/AdminAddListing';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminLeads from '@/pages/admin/AdminLeads';
+import AdminSettings from '@/pages/admin/AdminSettings';
 
 function UserProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.auth || {});
@@ -27,7 +25,6 @@ function UserProtectedRoute({ children }) {
 
 export default function App() {
   return (
-    <AdminProvider>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -40,16 +37,15 @@ export default function App() {
         </Route>
 
         <Route path="/admin/login" element={<AdminLogin />} />
-
         <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           <Route index element={<AdminDashboard />} />
-          <Route path="properties" element={<AdminProperties />} />
-          <Route path="add-property" element={<AdminAddProperty />} />
-          <Route path="bookings" element={<AdminBookings />} />
-          <Route path="tenants" element={<AdminTenants />} />
-          <Route path="reviews" element={<AdminReviews />} />
+          <Route path="listings" element={<AdminListings />} />
+          <Route path="listings/new" element={<AdminAddListing />} />
+          <Route path="listings/:id" element={<AdminAddListing />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="leads" element={<AdminLeads />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>
-    </AdminProvider>
   );
 }

@@ -7,7 +7,7 @@ const fallbackProperties = [
   {
     _id: 's1',
     title: 'Starlight Executive PG',
-    address: { city: 'Bangalore' },
+    address: { city: 'Delhi' },
     price: 8500,
     rating: 4.8,
     images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&q=80'],
@@ -16,7 +16,7 @@ const fallbackProperties = [
   {
     _id: 's2',
     title: 'Urban Nest Studio',
-    address: { city: 'Bangalore' },
+    address: { city: 'Delhi' },
     price: 12000,
     rating: 4.9,
     images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&q=80'],
@@ -25,7 +25,7 @@ const fallbackProperties = [
   {
     _id: 's3',
     title: 'Campus Inn Hostel',
-    address: { city: 'Bangalore' },
+    address: { city: 'Delhi' },
     price: 6500,
     rating: 4.7,
     images: ['https://images.unsplash.com/photo-1554995207-c18c203602cb?w=400&q=80'],
@@ -34,7 +34,7 @@ const fallbackProperties = [
   {
     _id: 's4',
     title: 'Skyline Premium PG',
-    address: { city: 'Bangalore' },
+    address: { city: 'Delhi' },
     price: 15000,
     rating: 4.9,
     images: ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=80'],
@@ -43,7 +43,7 @@ const fallbackProperties = [
   {
     _id: 's5',
     title: 'Green Valley PG',
-    address: { city: 'Bangalore' },
+    address: { city: 'Delhi' },
     price: 9000,
     rating: 4.6,
     images: ['https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=400&q=80'],
@@ -95,7 +95,7 @@ export default function SimilarProperties({ properties = fallbackProperties }) {
       >
         {items.map((p, i) => {
           const imgSrc = p.images?.[0] || fallbackProperties[i % fallbackProperties.length].images[0];
-          const cityName = typeof p.address === 'string' ? p.address : p.address?.city || 'Bangalore';
+          const cityName = typeof p.address === 'string' ? p.address : p.address?.city || 'Delhi';
 
           return (
             <motion.div

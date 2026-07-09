@@ -5,31 +5,23 @@ import { FiSearch, FiEye, FiHome } from 'react-icons/fi';
 const steps = [
   {
     icon: FiSearch,
-    title: 'Search',
-    description: 'Browse thousands of verified PGs, hostels, and rooms across top cities. Filter by your needs.',
+    title: 'Search & Filter',
+    description: 'Browse 500+ verified properties across top cities. Filter by budget, location, amenities, and gender to find your perfect match.',
     color: 'from-rushkey-500 to-orange-400',
   },
   {
     icon: FiEye,
-    title: 'Explore',
-    description: 'Take virtual tours, view high-res photos, check amenities, and read genuine reviews.',
+    title: 'Explore Virtually',
+    description: 'View high-res photos, check amenities, read genuine reviews from past tenants, and see live availability — all from your phone.',
     color: 'from-purple-500 to-pink-500',
   },
   {
     icon: FiHome,
-    title: 'Move In',
-    description: 'Connect with the owner instantly, visit in person, and move in within 24 hours. No brokers.',
+    title: 'Move In Today',
+    description: 'Connect with the owner directly, visit in person, and move in within 24 hours. No brokers, no paperwork, no hidden fees.',
     color: 'from-blue-500 to-cyan-400',
   },
 ];
-
-const lineVariants = {
-  hidden: { scaleX: 0 },
-  visible: {
-    scaleX: 1,
-    transition: { duration: 1.2, ease: 'easeInOut', delay: 0.5 },
-  },
-};
 
 export default function HowItWorks() {
   const ref = useRef(null);
@@ -42,26 +34,20 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-rushkey-500 text-sm font-semibold tracking-widest uppercase mb-3 block">
-            Simple Process
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-            Your new home in 3 steps
-          </h2>
-          <p className="text-gray-500 mt-2 max-w-lg mx-auto">
-            No paperwork. No agents. Just pure simplicity.
-          </p>
+          <span className="text-rushkey-500 text-sm font-semibold tracking-widest uppercase mb-3 block">Simple Process</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Your new home in 3 simple steps</h2>
+          <p className="text-gray-500 mt-3 max-w-lg mx-auto">Find, visit, and move in — all within a day. No brokers. No drama.</p>
         </motion.div>
 
         <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           <div className="hidden md:block absolute top-16 left-[16.66%] right-[16.66%] h-0.5">
             <motion.div
-              variants={lineVariants}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+              transition={{ duration: 1.2, ease: 'easeInOut', delay: 0.5 }}
               className="h-full bg-gradient-to-r from-rushkey-500 via-purple-500 to-blue-500 origin-left"
               style={{ transformOrigin: 'left center' }}
             />
@@ -73,7 +59,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.25, duration: 0.6, ease: 'easeOut' }}
+              transition={{ delay: i * 0.25, duration: 0.6 }}
               className="relative flex flex-col items-center text-center"
             >
               <motion.div
@@ -81,24 +67,15 @@ export default function HowItWorks() {
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.25 + 0.2, duration: 0.5, ease: [0.2, 0.65, 0.3, 0.9] }}
-                className="relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br p-0.5 mb-6 shadow-lg"
-                style={{ backgroundImage: `linear-gradient(135deg, ${step.color.split(' ')[0].replace('from-', '')}, ${step.color.split(' ')[1].replace('to-', '')})` }}
+                className="relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-rushkey-500 to-orange-400 p-0.5 mb-6 shadow-lg"
               >
                 <div className="w-full h-full rounded-2xl bg-white flex items-center justify-center">
                   <step.icon className="w-8 h-8 text-gray-900" />
                 </div>
               </motion.div>
 
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 md:hidden">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-100 text-xs font-bold text-gray-500">
-                  0{i + 1}
-                </span>
-              </div>
-
               <h3 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
-                {step.description}
-              </p>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">{step.description}</p>
             </motion.div>
           ))}
         </div>

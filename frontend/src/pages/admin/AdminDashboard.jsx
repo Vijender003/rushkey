@@ -1,148 +1,159 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { HiHome, HiCalendar, HiCurrencyDollar, HiUserGroup, HiArrowRight } from 'react-icons/hi';
-import { getAdminStats } from '@/services/analyticsService';
-import { getAdminBookings } from '@/services/bookingService';
+import { HiHome, HiUsers, HiPhone, HiEye, HiPlus, HiArrowRight } from 'react-icons/hi';
+import { getListings, getUsers, getLeads } from '@/data/adminMockData';
+import StatCard from '@/components/admin/StatCard';
+import Badge from '@/components/admin/Badge';
+
+const quickActions = [
+  { label: 'Add Listing', path: '/admin/listings/new', icon: HiPlus, desc: 'Create a new PG listing' },
+  { label: 'View Listings', path: '/admin/listings', icon: HiHome, desc: 'Manage all properties' },
+  { label: 'View Leads', path: '/admin/leads', icon: HiPhone, desc: 'Check new inquiries' },
+  { label: 'View Users', path: '/admin/users', icon: HiUsers, desc: 'Manage registered users' },
+];
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState(null);
-  const [recentBookings, setRecentBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState([]);
+  const [recentListings, setRecentListings] = useState([]);
+  const [recentLeads, setRecentLeads] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([
-      getAdminStats(),
-      getAdminBookings({ limit: 5 }),
-    ])
-      .then(([statsRes, bookingsRes]) => {
-        setStats(statsRes.data.data);
-        setRecentBookings(bookingsRes.data.bookings || []);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    const listings = getListings();
+    const users = getUsers();
+    const leads = getLeads();
+
+    setStats([
+      { label: 'Total Listings', value: listings.length, icon: HiHome, color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50', index: 0, trend: 12 },
+      { label: 'Active Listings', value: listings.filter((l) => l.status === 'Active').length, icon: HiEye, color: 'from-emerald-500 to-emerald-600', bg: 'bg-emerald-50', index: 1, trend: 8 },
+      { label: 'Total Users', value: users.length, icon: HiUsers, color: 'from-purple-500 to-purple-600', bg: 'bg-purple-50', index: 2, trend: -3 },
+      { label: 'New Leads', value: leads.filter((l) => !l.contacted).length, icon: HiPhone, color: 'from-rushkey-500 to-orange-500', bg: 'bg-rushkey-50', index: 3, trend: 24 },
+    ]);
+
+    setRecentListings(listings.slice(0, 5));
+    setRecentLeads(leads.slice(0, 5));
   }, []);
 
-  const statCards = stats ? [
-    { label: 'Total Properties', value: String(stats.totalProperties), change: `${stats.pendingProperties} pending`, icon: HiHome, bg: 'bg-indigo-50' },
-    { label: 'Active Bookings', value: String(stats.activeBookings), change: `${stats.totalBookings} total`, icon: HiCalendar, bg: 'bg-emerald-50' },
-    { label: 'Monthly Revenue', value: `₹${(stats.monthlyRevenue || 0).toLocaleString()}`, change: 'From paid bookings', icon: HiCurrencyDollar, bg: 'bg-amber-50' },
-    { label: 'Occupancy Rate', value: `${stats.occupancyRate || 0}%`, change: `${stats.totalUsers} users`, icon: HiUserGroup, bg: 'bg-violet-50' },
-  ] : [];
-
-  const quickActions = [
-    { label: 'Add Property', path: '/admin/add-property', icon: HiHome, color: 'text-indigo-600 bg-indigo-50' },
-    { label: 'View Bookings', path: '/admin/bookings', icon: HiCalendar, color: 'text-emerald-600 bg-emerald-50' },
-    { label: 'Messages', path: '/admin/messages', icon: HiUserGroup, color: 'text-amber-600 bg-amber-50' },
-  ];
-
-  const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
-  const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } } };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
   return (
-    <motion.div variants={container} initial="hidden" animate="show">
-      <motion.div variants={item} className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Dashboard</h1>
-        <p className="text-gray-400 mt-1">Welcome back, Admin. Here&apos;s your overview.</p>
-      </motion.div>
-
-      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {statCards.map((s) => (
-          <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-card-hover transition-shadow duration-300">
-            <div className="flex items-center justify-between mb-3">
-              <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center`}>
-                <s.icon className="w-5 h-5 text-gray-700" />
-              </div>
-              <span className="text-xs text-success-500 font-medium">{s.change}</span>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">{s.value}</p>
-            <p className="text-sm text-gray-400 mt-0.5">{s.label}</p>
-          </div>
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {stats.map((stat) => (
+          <StatCard key={stat.label} {...stat} />
         ))}
-      </motion.div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <motion.div variants={item} className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-base font-semibold text-gray-900">Revenue Trend</h2>
-            <span className="text-xs text-gray-400">Monthly revenue: ₹{(stats?.monthlyRevenue || 0).toLocaleString()}</span>
-          </div>
-          <div className="h-48 flex items-end gap-2">
-            {[40, 55, 45, 70, 60, 80, 75].map((h, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                <motion.div initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ duration: 0.6, delay: i * 0.08, ease: 'easeOut' }} className="w-full max-w-[32px] rounded-lg bg-gradient-to-t from-indigo-500 to-indigo-400" />
-                <span className="text-[10px] text-gray-400">M{i + 1}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div variants={item} className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="text-base font-semibold text-gray-900 mb-4">Quick Actions</h3>
-          <div className="space-y-3">
-            {quickActions.map((a) => (
-              <button key={a.label} onClick={() => navigate(a.path)} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors group text-left">
-                <div className={`w-9 h-9 rounded-xl ${a.color} flex items-center justify-center`}>
-                  <a.icon className="w-4 h-5" />
-                </div>
-                <span className="text-sm font-medium text-gray-700 flex-1">{a.label}</span>
-                <HiArrowRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
-              </button>
-            ))}
-          </div>
-        </motion.div>
       </div>
 
-      <motion.div variants={item} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="text-base font-semibold text-gray-900">Recent Bookings</h3>
-          <button onClick={() => navigate('/admin/bookings')} className="text-xs text-indigo-500 font-medium hover:text-indigo-600 transition-colors">View All</button>
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 className="text-base font-semibold text-gray-900">Recent Listings</h2>
+              <button
+                onClick={() => navigate('/admin/listings')}
+                className="text-sm text-rushkey-600 hover:text-rushkey-700 font-medium flex items-center gap-1"
+              >
+                View all <HiArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            {recentListings.length === 0 ? (
+              <p className="text-sm text-gray-400 py-10 text-center">No listings yet</p>
+            ) : (
+              <div className="divide-y divide-gray-50">
+                {recentListings.map((listing) => (
+                  <div
+                    key={listing.id}
+                    onClick={() => navigate('/admin/listings')}
+                    className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50/70 transition-colors cursor-pointer"
+                  >
+                    <img src={listing.image} alt="" className="w-11 h-11 rounded-lg object-cover shrink-0 ring-1 ring-gray-100" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{listing.title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{listing.price} &middot; {listing.location}</p>
+                    </div>
+                    <Badge variant={listing.availability} dot>{listing.availability}</Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 className="text-base font-semibold text-gray-900">Recent Leads</h2>
+              <button
+                onClick={() => navigate('/admin/leads')}
+                className="text-sm text-rushkey-600 hover:text-rushkey-700 font-medium flex items-center gap-1"
+              >
+                View all <HiArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            {recentLeads.length === 0 ? (
+              <p className="text-sm text-gray-400 py-10 text-center">No leads yet</p>
+            ) : (
+              <div className="divide-y divide-gray-50">
+                {recentLeads.map((lead) => (
+                  <div key={lead.id} className="flex items-center gap-3 px-5 py-3">
+                    <div className="w-9 h-9 rounded-full bg-rushkey-50 flex items-center justify-center shrink-0 ring-1 ring-rushkey-100">
+                      <HiPhone className="w-4 h-4 text-rushkey-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">{lead.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{lead.listing}</p>
+                    </div>
+                    <Badge variant={lead.contacted ? 'Contacted' : 'New'} dot>
+                      {lead.contacted ? 'Contacted' : 'New'}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-50">
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Tenant</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Property</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Amount</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentBookings.length === 0 && (
-                <tr><td colSpan={5} className="px-6 py-8 text-center text-sm text-gray-400">No bookings yet.</td></tr>
-              )}
-              {recentBookings.map((b, i) => (
-                <tr key={b._id || i} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-3.5 text-sm font-medium text-gray-900">{b.user?.name || 'N/A'}</td>
-                  <td className="px-6 py-3.5 text-sm text-gray-500">{b.property?.title || 'N/A'}</td>
-                  <td className="px-6 py-3.5 text-sm font-medium text-gray-900">₹{b.totalPrice?.toLocaleString() || 0}</td>
-                  <td className="px-6 py-3.5 text-sm text-gray-500">{new Date(b.createdAt).toLocaleDateString()}</td>
-                  <td className="px-6 py-3.5">
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                      b.status === 'confirmed' ? 'bg-success-50 text-success-600' :
-                      b.status === 'pending' ? 'bg-warning-50 text-warning-600' :
-                      'bg-error-50 text-error-600'
-                    }`}>
-                      {b.status?.charAt(0).toUpperCase() + b.status?.slice(1)}
-                    </span>
-                  </td>
-                </tr>
+
+        <div className="space-y-6">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <h2 className="text-base font-semibold text-gray-900 mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {quickActions.map((action) => (
+                <motion.button
+                  key={action.label}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate(action.path)}
+                  className="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all text-center"
+                >
+                  <div className="p-2.5 rounded-xl bg-rushkey-50 text-rushkey-600">
+                    <action.icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-semibold text-gray-700">{action.label}</span>
+                  <span className="text-[10px] text-gray-400">{action.desc}</span>
+                </motion.button>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <h2 className="text-base font-semibold text-gray-900 mb-4">Quick Stats</h2>
+            <div className="space-y-4">
+              {[
+                { label: 'Avg. Listing Price', value: '₹9,800', change: '+5%', up: true },
+                { label: 'Conversion Rate', value: '24%', change: '+3%', up: true },
+                { label: 'Pending Reviews', value: '12', change: '-2', up: false },
+              ].map((stat) => (
+                <div key={stat.label} className="flex items-center justify-between py-1">
+                  <span className="text-sm text-gray-600">{stat.label}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-gray-900">{stat.value}</span>
+                    <span className={`text-xs font-medium ${stat.up ? 'text-emerald-600' : 'text-red-500'}`}>
+                      {stat.change}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

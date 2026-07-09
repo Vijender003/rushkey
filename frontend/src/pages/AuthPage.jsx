@@ -22,33 +22,23 @@ export default function AuthPage({ initialTab = 'login' }) {
   }, [isAuthenticated, navigate, redirect]);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearError());
-    }
+    if (error) { toast.error(error); dispatch(clearError()); }
   }, [error, dispatch]);
 
   const handleLogin = async (data) => {
-    try {
-      await dispatch(login(data)).unwrap();
-      toast.success('Welcome back!');
-    } catch {}
+    try { await dispatch(login(data)).unwrap(); toast.success('Welcome back!'); } catch {}
   };
 
   const handleSignup = async (data) => {
-    try {
-      await dispatch(register(data)).unwrap();
-      toast.success('Account created!');
-    } catch {}
+    try { await dispatch(register(data)).unwrap(); toast.success('Account created!'); } catch {}
   };
 
-  const switchToLogin = useCallback(() => {
-    if (!isLogin) { setDirection(1); setIsLogin(true); }
-  }, [isLogin]);
+  const handleDemoLogin = async (data) => {
+    try { await dispatch(login(data)).unwrap(); toast.success('Welcome! You are logged in as Demo User.'); } catch {}
+  };
 
-  const switchToSignup = useCallback(() => {
-    if (isLogin) { setDirection(-1); setIsLogin(false); }
-  }, [isLogin]);
+  const switchToLogin = useCallback(() => { if (!isLogin) { setDirection(1); setIsLogin(true); } }, [isLogin]);
+  const switchToSignup = useCallback(() => { if (isLogin) { setDirection(-1); setIsLogin(false); } }, [isLogin]);
 
   const slideVariants = {
     enter: (dir) => ({ opacity: 0, x: dir > 0 ? 30 : -30 }),
@@ -58,7 +48,7 @@ export default function AuthPage({ initialTab = 'login' }) {
 
   return (
     <AuthLayout>
-      <div className="flex items-center justify-center mb-8">
+      <div className="flex items-center justify-center mb-6">
         <div className="relative flex bg-gray-100 rounded-full p-1 w-56">
           <motion.div
             className="absolute top-1 bottom-1 w-1/2 rounded-full bg-rushkey-500"
@@ -66,24 +56,8 @@ export default function AuthPage({ initialTab = 'login' }) {
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             style={{ left: isLogin ? '4px' : 'calc(50% + 2px)' }}
           />
-          <button
-            type="button"
-            onClick={switchToLogin}
-            className={`relative z-10 flex-1 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${
-              isLogin ? 'text-white' : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            onClick={switchToSignup}
-            className={`relative z-10 flex-1 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${
-              !isLogin ? 'text-white' : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Sign Up
-          </button>
+          <button type="button" onClick={switchToLogin} className={`relative z-10 flex-1 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${isLogin ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}>Login</button>
+          <button type="button" onClick={switchToSignup} className={`relative z-10 flex-1 py-2 text-sm font-medium rounded-full transition-colors duration-300 ${!isLogin ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}>Sign Up</button>
         </div>
       </div>
 
@@ -98,7 +72,7 @@ export default function AuthPage({ initialTab = 'login' }) {
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
           {isLogin ? (
-            <LoginForm onSubmit={handleLogin} loading={loading} />
+            <LoginForm onSubmit={handleLogin} onDemoLogin={handleDemoLogin} loading={loading} />
           ) : (
             <SignupForm onSubmit={handleSignup} loading={loading} />
           )}

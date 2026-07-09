@@ -5,6 +5,7 @@ const shadowVariants = {
   md: 'shadow-md',
   lg: 'shadow-lg',
   xl: 'shadow-xl',
+  '2xl': 'shadow-2xl',
   none: '',
 };
 
@@ -14,36 +15,49 @@ export default function Card({
   onClick,
   image,
   badge,
+  badgeVariant = 'default',
   shadow = 'md',
   hover = true,
+  padding = true,
 }) {
-  const Component = onClick ? motion.div : motion.div;
+  const badgeStyles = {
+    default: 'bg-rushkey-500 text-white',
+    success: 'bg-emerald-500 text-white',
+    warning: 'bg-amber-500 text-white',
+    info: 'bg-blue-500 text-white',
+  };
 
   return (
-    <Component
+    <motion.div
       onClick={onClick}
-      whileHover={hover && onClick ? { scale: 1.02, y: -4 } : hover ? { y: -4 } : undefined}
+      whileHover={hover ? { y: -6, transition: { duration: 0.2 } } : undefined}
       transition={{ duration: 0.2 }}
-      className={`bg-white rounded-xl overflow-hidden ${
+      className={`bg-white rounded-2xl border border-gray-100 overflow-hidden transition-shadow duration-300 ${
         shadowVariants[shadow] || shadowVariants.md
-      } ${onClick ? 'cursor-pointer' : ''} ${className}`}
+      } ${hover ? 'hover:shadow-xl hover:border-gray-200' : ''} ${
+        onClick ? 'cursor-pointer' : ''
+      } ${className}`}
     >
       {image && (
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <img
             src={image}
             alt=""
-            className="w-full h-48 object-cover"
+            className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
           {badge && (
-            <span className="absolute top-3 left-3 bg-rushkey-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+            <span
+              className={`absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full shadow-sm ${
+                badgeStyles[badgeVariant] || badgeStyles.default
+              }`}
+            >
               {badge}
             </span>
           )}
         </div>
       )}
-      <div className="p-4">{children}</div>
-    </Component>
+      {padding ? <div className="p-5">{children}</div> : children}
+    </motion.div>
   );
 }

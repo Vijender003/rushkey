@@ -6,7 +6,7 @@ import { PROPERTY_TYPES } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 
 const suggestions = [
-  'Bangalore', 'Mumbai', 'Delhi', 'Pune', 'Hyderabad',
+  'Delhi', 'Mumbai', 'Pune', 'Hyderabad', 'Noida',
   'Chennai', 'Kolkata', 'Jaipur', 'Ahmedabad', 'Goa',
 ];
 

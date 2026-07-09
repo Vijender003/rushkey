@@ -13,7 +13,7 @@ export default function MapSection({ property }) {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   const { address } = property;
-  const cityName = typeof address === 'string' ? address : address?.city || 'Bangalore';
+  const cityName = typeof address === 'string' ? address : address?.city || 'Delhi';
 
   return (
     <section ref={ref} className="scroll-mt-24">

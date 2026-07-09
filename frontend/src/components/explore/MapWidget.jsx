@@ -117,7 +117,7 @@ export default function MapWidget({ hoveredId, activePin, onPinClick }) {
 
       <div className="absolute top-3 left-3 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-3 py-1.5 shadow-sm">
         <FiNavigation className="w-3.5 h-3.5 text-white/70" />
-        <span className="text-white/70 text-xs font-medium">Bangalore</span>
+        <span className="text-white/70 text-xs font-medium">Delhi</span>
       </div>
 
       <div className="absolute top-3 right-3 flex flex-col gap-1.5">

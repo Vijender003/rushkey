@@ -15,8 +15,8 @@ const quickItemVariants = {
 export default function PropertyInfo({ property }) {
   const { title, address, rating, price, type, gender, capacity, deposit, availableFrom } = property;
 
-  const cityName = typeof address === 'string' ? address : address?.city || 'Bangalore';
-  const fullAddress = typeof address === 'string' ? address : [address?.street, address?.city, address?.state].filter(Boolean).join(', ') || 'Bangalore';
+  const cityName = typeof address === 'string' ? address : address?.city || 'Delhi';
+  const fullAddress = typeof address === 'string' ? address : [address?.street, address?.city, address?.state].filter(Boolean).join(', ') || 'Delhi';
 
   const quickInfo = [
     { icon: BiRupee, label: 'Rent', value: `₹${price?.toLocaleString('en-IN')}/mo` },
