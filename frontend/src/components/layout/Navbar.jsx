@@ -52,7 +52,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${bgClass}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Logo showText size={scrolled ? 'md' : 'md'} className={scrolled ? '' : '[&_span:last-child]:text-white'} />
+          <Logo showText size="md" whiteText={!scrolled} />
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
