@@ -9,16 +9,16 @@ const footerLinks = {
     { to: '/', label: 'Pricing' },
   ],
   Support: [
-    { to: '/', label: 'Help Center' },
-    { to: '/', label: 'Safety Tips' },
-    { to: '/', label: 'Contact Us' },
-    { to: '/', label: 'FAQs' },
+    { to: '/help', label: 'Help Center' },
+    { to: '/safety-tips', label: 'Safety Tips' },
+    { to: '/contact', label: 'Contact Us' },
+    { to: '/faq', label: 'FAQs' },
   ],
   Company: [
-    { to: '/', label: 'About Us' },
-    { to: '/', label: 'Blog' },
-    { to: '/', label: 'Careers' },
-    { to: '/', label: 'Press Kit' },
+    { to: '/about', label: 'About Us' },
+    { to: '/blog', label: 'Blog' },
+    { to: '/careers', label: 'Careers' },
+    { to: '/press-kit', label: 'Press Kit' },
   ],
 };
 

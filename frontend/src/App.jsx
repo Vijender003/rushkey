@@ -7,6 +7,14 @@ import PropertyDetails from '@/pages/PropertyDetails';
 import AuthPage from '@/pages/AuthPage';
 import Dashboard from '@/pages/Dashboard';
 import NotFound from '@/pages/NotFound';
+import HelpCenter from '@/pages/HelpCenter';
+import SafetyTips from '@/pages/SafetyTips';
+import ContactUs from '@/pages/ContactUs';
+import FAQ from '@/pages/FAQ';
+import AboutUs from '@/pages/AboutUs';
+import Blog from '@/pages/Blog';
+import Careers from '@/pages/Careers';
+import PressKit from '@/pages/PressKit';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import AdminLogin from '@/pages/admin/AdminLogin';
@@ -33,6 +41,14 @@ export default function App() {
           <Route path="/login" element={<AuthPage initialTab="login" />} />
           <Route path="/signup" element={<AuthPage initialTab="signup" />} />
           <Route path="/dashboard" element={<UserProtectedRoute><Dashboard /></UserProtectedRoute>} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/safety-tips" element={<SafetyTips />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/press-kit" element={<PressKit />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 

@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiChevronDown, FiHome, FiSearch, FiUser, FiLogOut, FiGrid } from 'react-icons/fi';
+import { FiMenu, FiX, FiChevronDown, FiHome, FiSearch, FiUser, FiLogOut, FiGrid, FiHelpCircle, FiPhone, FiInfo, FiBookOpen, FiBriefcase } from 'react-icons/fi';
 import useAuth from '@/hooks/useAuth';
 import Button from '@/components/ui/Button';
 
 const navLinks = [
   { to: '/', label: 'Home', icon: FiHome },
   { to: '/search', label: 'Explore', icon: FiSearch },
+];
+
+const moreLinks = [
+  { to: '/help', label: 'Help Center', icon: FiHelpCircle },
+  { to: '/faq', label: 'FAQ', icon: FiBookOpen },
+  { to: '/safety-tips', label: 'Safety Tips', icon: FiInfo },
+  { to: '/contact', label: 'Contact Us', icon: FiPhone },
+  { to: '/about', label: 'About Us', icon: FiInfo },
+  { to: '/blog', label: 'Blog', icon: FiBookOpen },
+  { to: '/careers', label: 'Careers', icon: FiBriefcase },
 ];
 
 export default function Navbar() {
@@ -63,6 +73,36 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <div className="relative group">
+              <button
+                className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
+                  moreLinks.some((l) => location.pathname === l.to)
+                    ? 'text-rushkey-500'
+                    : scrolled
+                    ? 'text-gray-600 hover:text-gray-900'
+                    : 'text-white/80 hover:text-white'
+                }`}
+              >
+                More <FiChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+              </button>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="bg-white rounded-2xl shadow-xl border border-gray-100 py-2 w-48 overflow-hidden">
+                  {moreLinks.map((link) => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className={`flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
+                        location.pathname === link.to
+                          ? 'text-rushkey-600 bg-rushkey-50 font-medium'
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
+                    >
+                      <link.icon className="w-4 h-4" /> {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="hidden md:flex items-center gap-3">
@@ -140,6 +180,23 @@ export default function Navbar() {
 
               <div className="flex-1 px-4 py-4 space-y-1">
                 {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors ${
+                      location.pathname === link.to
+                        ? 'bg-rushkey-50 text-rushkey-600'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
+                  >
+                    <link.icon className="w-5 h-5" /> {link.label}
+                  </Link>
+                ))}
+                <div className="pt-2 pb-1">
+                  <p className="px-3 text-xs text-gray-400 font-medium uppercase tracking-wider">More</p>
+                </div>
+                {moreLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
